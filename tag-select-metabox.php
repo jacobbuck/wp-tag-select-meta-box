@@ -22,7 +22,7 @@ class TagSelectMetabox {
 	function admin_init () {
 		wp_register_script("chosen.jquery", plugins_url("assets/chosen/chosen.jquery.min.js", __FILE__), array("jquery"), "0.9.8");
 		wp_register_script("tagselect", plugins_url("assets/scripts.min.js", __FILE__), array("jquery", "chosen.jquery"), "1");
-		wp_register_style("chosen", plugins_url("assets/chosen/chosen.min.css", __FILE__), false, "0.9.8");
+		wp_register_style("chosen", plugins_url("assets/chosen/chosen.min.css", __FILE__), null, "0.9.8");
 		wp_register_style("tagselect", plugins_url("assets/styles.min.css", __FILE__), array("chosen"), "1");
 	}
 	
@@ -51,11 +51,10 @@ class TagSelectMetabox {
 	function save_post ($post_id) {
 		if (defined("DOING_AUTOSAVE") && DOING_AUTOSAVE)
 			return;
-		//if (! wp_verify_nonce($_POST["myplugin_noncename"], plugin_basename( __FILE__ )))
-		//	return;
 		foreach ($this->taxonomies as $tax) {
-			if (isset($_POST["tagselect-" . $tax->name . "-select"])) {
-				wp_set_object_terms($post_id, $_POST["tagselect-" . $tax->name . "-select"], $tax->name, false);
+			$tax_name = $tax->name;
+			if (isset($_POST["tagselect-$tax_name-select"])) {
+				wp_set_object_terms($post_id, $_POST["tagselect-$tax_name-select"], $tax_name, false);
 			}
 		}
 	}
@@ -100,7 +99,7 @@ class TagSelectMetabox {
 			</div>
 			<?php if (! ($hide_add || $disabled)) { ?>
 				<div class="tagselect-add-wrap hide-if-no-js">
-					<p><input type="text" class="tagselect-add-text" name="<?php echo $box["id"]; ?>-add-text" value="" placeholder="<?php _e($tax->label); ?>"> <input type="button" class="button tagselect-add-button" name="<?php echo $box_id; ?>-add-button" value="Add"></p>
+					<p><input type="text" class="tagselect-add-text" name="<?php echo $box["id"]; ?>-add-text" placeholder="<?php _e($tax->label); ?>"  value=""> <input type="button" class="button tagselect-add-button" name="<?php echo $box_id; ?>-add-button" value="Add"></p>
 				</div>
 			<?php } ?>
 		</div>
