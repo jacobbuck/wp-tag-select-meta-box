@@ -4,19 +4,9 @@ jQuery(function ($) {
 		
 		var select = $(".tagselect-select:first", this);
 		
-		select.chosen({"allow_single_deselect" : true});
+		select.chosen({allow_single_deselect : true});
 		
-		if ($(".tagselect-add-wrap:first").length) {
-			
-			var add_button = $(".tagselect-add-button:first", this),
-				add_text = $(".tagselect-add-text:first", this);
-				
-			add_button.click(add_terms);
-			
-			add_text.keypress(function(event) {
-				if (event.which == 13)
-					return add_terms();
-			});
+		if ($(".tagselect-add-wrap:first", this).length) {
 			
 			function add_terms () {
 				var add_values = add_text.val().split(",");
@@ -29,6 +19,16 @@ jQuery(function ($) {
 				}
 				return false;
 			}
+			
+			var add_button = $(".tagselect-add-button:first", this),
+				add_text = $(".tagselect-add-text:first", this);
+				
+			add_button.click(add_terms);
+			
+			add_text.keypress(function(event) {
+				if (event.which == 13)
+					return add_terms(event);
+			});
 			
 		}
 		

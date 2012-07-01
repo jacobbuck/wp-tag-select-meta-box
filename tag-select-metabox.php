@@ -3,7 +3,7 @@
 Plugin Name: Tag Select Metabox
 Plugin URI: https://github.com/jacobbuck/wp-tag-select-metabox
 Description: An alternative post tag and non-hierarchal taxonomy meta box.
-Version: 1.0
+Version: 1.0.1
 Author: Jacob Buck
 Author URI: http://jacobbuck.co.nz/
 */
