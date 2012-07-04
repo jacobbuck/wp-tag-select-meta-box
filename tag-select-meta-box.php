@@ -3,7 +3,7 @@
 Plugin Name: Tag Select Meta Box
 Plugin URI: https://github.com/jacobbuck/wp-tag-select-meta-box
 Description: An alternative post tag and non-hierarchal taxonomy meta box.
-Version: 1.0.2
+Version: 1.0.3
 Author: Jacob Buck
 Author URI: http://jacobbuck.co.nz/
 */
@@ -103,7 +103,7 @@ class TagSelectMetaBox {
 			</div>
 			<?php if (! ($hide_add || $disabled)) { ?>
 				<div class="tagselect-add-wrap hide-if-no-js">
-					<p><input type="text" class="tagselect-add-text" name="<?php echo $box["id"]; ?>-add-text" placeholder="<?php _e($tax->label); ?>"  value=""> <input type="button" class="button tagselect-add-button" name="<?php echo $box_id; ?>-add-button" value="<?php _e("Add"); ?>"></p>
+					<p><input type="text" class="tagselect-add-text" name="<?php echo $box["id"]; ?>-add-text" value=""> <button class="button tagselect-add-button" name="<?php echo $box["id"]; ?>-add-button"><?php _e("Add"); ?></button></p>
 				</div>
 			<?php } ?>
 		</div>
