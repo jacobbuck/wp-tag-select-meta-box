@@ -3,7 +3,7 @@
 Plugin Name: Tag Select Meta Box
 Plugin URI: https://github.com/jacobbuck/wp-tag-select-meta-box
 Description: An alternative post tag and non-hierarchal taxonomy meta box.
-Version: 1.0.1
+Version: 1.0.2
 Author: Jacob Buck
 Author URI: http://jacobbuck.co.nz/
 */
@@ -20,10 +20,10 @@ class TagSelectMetaBox {
 	}
 	
 	function admin_init () {
-		wp_register_script("chosen.jquery", plugins_url("assets/chosen/chosen.jquery.min.js", __FILE__), array("jquery"), "0.9.8");
-		wp_register_script("tagselect", plugins_url("assets/scripts.min.js", __FILE__), array("jquery", "chosen.jquery"), "1");
+		wp_register_script("chosen", plugins_url("assets/chosen/chosen.jquery.min.js", __FILE__), array("jquery"), "0.9.8");
+		wp_register_script("tagselect", plugins_url("assets/tagselect.min.js", __FILE__), array("jquery"), "1.0.2");
 		wp_register_style("chosen", plugins_url("assets/chosen/chosen.min.css", __FILE__), null, "0.9.8");
-		wp_register_style("tagselect", plugins_url("assets/styles.min.css", __FILE__), array("chosen"), "1");
+		wp_register_style("tagselect", plugins_url("assets/tagselect.min.css", __FILE__), null, "1.0.2");
 	}
 	
 	function add_meta_boxes ($post_type) {
@@ -31,7 +31,7 @@ class TagSelectMetaBox {
 			if (is_object_in_taxonomy($post_type, $tax->name)) {
 				add_action("admin_enqueue_scripts", array($this, "admin_enqueue_scripts"));
 				add_meta_box( 
-					"tagselect-" . $tax->name,
+					"tagselect-".$tax->name,
 					__(empty($tax->tagselect["singular"]) ? $tax->label : $tax->labels->singular_name),
 					array($this, "meta_box_callback"),
 					null,
@@ -39,7 +39,7 @@ class TagSelectMetaBox {
 					"default",
 					array("taxonomy" => $tax)
 				);
-				remove_meta_box("tagsdiv-" . $tax->name, $post_type, "side");
+				remove_meta_box("tagsdiv-".$tax->name, $post_type, "side");
 			}
 		}
 	}
@@ -60,6 +60,10 @@ class TagSelectMetaBox {
 	}
 		
 	function admin_enqueue_scripts () {
+		if (! wp_is_mobile()) {
+			wp_enqueue_script("chosen");
+			wp_enqueue_style("chosen");
+		}
 		wp_enqueue_script("tagselect");
 		wp_enqueue_style("tagselect");
 	}
@@ -87,7 +91,7 @@ class TagSelectMetaBox {
 		<div class="tagselect-wrap">
 			<div class="tagselect-select-wrap">
 				<?php 
-				echo "<select class=\"tagselect-select\" name=\"".$box["id"]."-select[]\"".($disabled ? " disabled" : "").($singular ? "" : " multiple")." data-placeholder=\"".__("Choose a " . $tax->labels->singular_name)."&hellip;\">\n";
+				echo "<select class=\"tagselect-select\" name=\"".$box["id"]."-select[]\"".($disabled ? " disabled" : "").($singular ? "" : " multiple")." data-placeholder=\"".__("Choose a ".$tax->labels->singular_name)."&hellip;\">\n";
 				if ($singular) {
 					echo "<option></option>\n";
 				}
@@ -99,7 +103,7 @@ class TagSelectMetaBox {
 			</div>
 			<?php if (! ($hide_add || $disabled)) { ?>
 				<div class="tagselect-add-wrap hide-if-no-js">
-					<p><input type="text" class="tagselect-add-text" name="<?php echo $box["id"]; ?>-add-text" placeholder="<?php _e($tax->label); ?>"  value=""> <input type="button" class="button tagselect-add-button" name="<?php echo $box_id; ?>-add-button" value="Add"></p>
+					<p><input type="text" class="tagselect-add-text" name="<?php echo $box["id"]; ?>-add-text" placeholder="<?php _e($tax->label); ?>"  value=""> <input type="button" class="button tagselect-add-button" name="<?php echo $box_id; ?>-add-button" value="<?php _e("Add"); ?>"></p>
 				</div>
 			<?php } ?>
 		</div>

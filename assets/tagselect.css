@@ -5,14 +5,21 @@
 	width: 100%;
 }
 .tagselect-select-wrap .chzn-container input {
-	-moz-box-sizing: content-box;
 	-webkit-box-sizing: content-box;
-	-ms-box-sizing: content-box;
-	box-sizing: content-box;
+	-moz-box-sizing   : content-box;
+	box-sizing        : content-box;
 }
 .tagselect-select-wrap .chzn-container-multi .chzn-choices {
+	border-color: #dfdfdf;
 	-webkit-border-radius: 3px;
-	border-radius: 3px;
+	-moz-border-radius   : 3px;
+	border-radius        : 3px;
+}
+.tagselect-select-wrap .chzn-container-multi.chzn-container-active .chzn-choices {
+	border-color: #bbb;
+	-webkit-box-shadow: none;
+	-moz-box-shadow   : none;
+	box-shadow        : none;
 }
 .tagselect-select-wrap .chzn-container-multi .chzn-drop {
 	border-color: #bbb;

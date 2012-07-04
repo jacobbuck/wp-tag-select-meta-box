@@ -2,9 +2,11 @@ jQuery(function ($) {
 
 	$(".tagselect-wrap").each(function () {
 		
-		var select = $(".tagselect-select:first", this);
+		var select = $(".tagselect-select:first", this),
+			is_mobile = $("body").hasClass("mobile");
 		
-		select.chosen({allow_single_deselect : true});
+		if (! is_mobile)
+			select.chosen({allow_single_deselect : true});
 		
 		if ($(".tagselect-add-wrap:first", this).length) {
 			
@@ -14,8 +16,9 @@ jQuery(function ($) {
 				if (add_values.length) {
 					for (var key = 0, val; key < add_values.length; key++)
 						if (val = add_values[key].replace(/(^\s*|\s*$)/, ""))
-							select.append( $("<option>", {"selected":"selected"}).text(val) );
-					select.trigger("liszt:updated");
+							select.prepend( $("<option>", {"selected":"selected"}).text(val) );
+					if (! is_mobile)
+						select.trigger("liszt:updated");
 				}
 				return false;
 			}
