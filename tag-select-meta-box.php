@@ -1,14 +1,14 @@
 <?php
 /*
-Plugin Name: Tag Select Metabox
-Plugin URI: https://github.com/jacobbuck/wp-tag-select-metabox
+Plugin Name: Tag Select Meta Box
+Plugin URI: https://github.com/jacobbuck/wp-tag-select-meta-box
 Description: An alternative post tag and non-hierarchal taxonomy meta box.
 Version: 1.0.1
 Author: Jacob Buck
 Author URI: http://jacobbuck.co.nz/
 */
 
-class TagSelectMetabox {
+class TagSelectMetaBox {
 	
 	private $taxonomies;
 	
@@ -33,7 +33,7 @@ class TagSelectMetabox {
 				add_meta_box( 
 					"tagselect-" . $tax->name,
 					__(empty($tax->tagselect["singular"]) ? $tax->label : $tax->labels->singular_name),
-					array($this, "tagselect_meta_box_callback"),
+					array($this, "meta_box_callback"),
 					null,
 					"side",
 					"default",
@@ -64,7 +64,7 @@ class TagSelectMetabox {
 		wp_enqueue_style("tagselect");
 	}
 	
-	function tagselect_meta_box_callback ($post, $box) {
+	function meta_box_callback ($post, $box) {
 		$tax = $box["args"]["taxonomy"];	
 		extract(wp_parse_args(
 			empty($tax->tagselect) ? array() : $tax->tagselect,
@@ -108,4 +108,4 @@ class TagSelectMetabox {
 	
 }
 
-$tagselectmetabox = new TagSelectMetabox;
+$tagselectmetabox = new TagSelectMetaBox;
