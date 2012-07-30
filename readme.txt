@@ -10,5 +10,9 @@ An alternative post tag and non-hierarchal taxonomy meta box.
 
 == Description ==
 
-:)
+An alternative post tag and non-hierarchal taxonomy meta box, using the [Chosen](http://harvesthq.github.com/chosen/) select box.
 
+== Changelog ==
+
+= 1.0.4 =
+* Initial release on WordPress Plugin Repository

@@ -94,13 +94,13 @@ class TagSelectMetaBox {
 			array( 'fields' => 'slugs' )
 		);
 		echo '<div class="tagselect-wrap"><div class="tagselect-select-wrap">';
-		echo '<select class="tagselect-select" name="' . $box['id'] . '-select[]"' . ( $disabled ? ' disabled' : '' ) . ( $singular ? '' : ' multiple' ) . ' data-placeholder="' . __("Choose a {$tax->labels->singular_name}") . '&hellip;">';
+		echo '<select class="tagselect-select" name="' . $box['id'] . '-select[]"' . ( $disabled ? ' disabled="disabled"' : '' ) . ( $singular ? '' : ' multiple="multiple"' ) . ' data-placeholder="' . __("Choose a {$tax->labels->singular_name}") . '&hellip;">';
 		if ( $singular ) 
 			echo '<option value=""></option>';
 		foreach ( (array) $terms as $term ) 
 			echo "<option value=\"{$term->slug}\"" . ( in_array( $term->slug, $post_terms ) ? ' selected="selected"' : '' ) . '>' . __( $term->name ) . '</option>';
 		echo '</select></div>';
-		if ( ! ( $hide_add || $disabled ) ) {
+		if ( ! $hide_add && ! $disabled ) {
 			echo '<div class="tagselect-add-wrap hide-if-no-js"><p><input type="text" class="tagselect-add-text" name="' . $box['id'] . '-add-text" value="">';
 			echo '<button class="button tagselect-add-button" name="' . $box['id'] . '-add-button">' . __('Add') . '</button></p></div>';
 		}
