@@ -3,7 +3,7 @@
 Plugin Name: Tag Select Meta Box
 Plugin URI: https://github.com/jacobbuck/wp-tag-select-meta-box
 Description: An alternative post tag and non-hierarchal taxonomy meta box.
-Version: 1.0.4
+Version: 1.0.5
 Author: Jacob Buck
 Author URI: http://jacobbuck.co.nz/
 */
@@ -58,10 +58,12 @@ class TagSelectMetaBox {
 	function save_post ( $post_id ) {
 		if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE )
 			return;
-		foreach ( $this->taxonomies as $tax ) {
+		foreach ( (array) $this->taxonomies as $tax ) {
 			$tax_name = $tax->name;
-			if ( isset( $_POST["tagselect-$tax_name-select"] ) )
-				wp_set_object_terms( $post_id, $_POST["tagselect-$tax_name-select"], $tax_name, false );
+			if ( empty( $_POST["tagselect-$tax_name-nonce"] ) || ! wp_verify_nonce( $_POST["tagselect-$tax_name-nonce"], plugin_basename( __FILE__ ) ) ) 
+				continue;
+			$select_terms = empty( $_POST["tagselect-$tax_name-select"] ) ? array() : $_POST["tagselect-$tax_name-select"];
+			wp_set_object_terms( $post_id, $select_terms, $tax_name, false );
 		}
 	}
 		
@@ -93,6 +95,7 @@ class TagSelectMetaBox {
 			$tax->name,
 			array( 'fields' => 'slugs' )
 		);
+		wp_nonce_field( plugin_basename( __FILE__ ), $box['id'] . '-nonce' );
 		echo '<div class="tagselect-wrap"><div class="tagselect-select-wrap">';
 		echo '<select class="tagselect-select" name="' . $box['id'] . '-select[]"' . ( $disabled ? ' disabled="disabled"' : '' ) . ( $singular ? '' : ' multiple="multiple"' ) . ' data-placeholder="' . __("Choose a {$tax->labels->singular_name}") . '&hellip;">';
 		if ( $singular ) 
