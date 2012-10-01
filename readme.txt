@@ -12,6 +12,10 @@ An alternative post tag and non-hierarchal taxonomy meta box.
 
 An alternative post tag and non-hierarchal taxonomy meta box, using the [Chosen](http://harvesthq.github.com/chosen/) select box.
 
+== Screenshots ==
+
+1. Before & After
+
 == Changelog ==
 
 = 1.0.5 =
